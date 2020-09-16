@@ -1,0 +1,10 @@
+.input-style {
+  outline: none;
+
+  border-radius: 5px;
+  padding-left: 15px;
+}
+.input-style:focus {
+  border-radius: 5px;
+  border: 1px solid orange;
+}
