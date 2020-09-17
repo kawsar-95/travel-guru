@@ -3,7 +3,7 @@ import { Button, Grid } from "@material-ui/core";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { MyContext } from "../../App";
-import { touristPlaces } from "../../Data/Destination";
+import { touristPlaces } from "../../Data/Data";
 
 import TravelArea from "../TravelArea/TravelArea";
 const TravelSection = () => {

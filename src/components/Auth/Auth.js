@@ -10,9 +10,17 @@ import * as firebase from "firebase/app";
 import { MyContext } from "../../App";
 import { useHistory, useLocation } from "react-router-dom";
 const Auth = () => {
-  const [showArea, setShowArea, loggedIn, setLoggedIn] = useContext(MyContext);
+  const [
+    showArea,
+    setShowArea,
+    loggedIn,
+    setLoggedIn,
+    name,
+    setName,
+  ] = useContext(MyContext);
+  const [confirmationError, setConfirmationError] = useState(false);
 
-  const [isSignedUp, setSignedUp] = useState(false);
+  const [signedUp, setSignedUp] = useState(false);
   const [submitter, setSubmitter] = useState("");
   const [user, setUser] = useState({});
 
@@ -22,27 +30,34 @@ const Auth = () => {
   const formHandler = (event) => {
     event.preventDefault();
 
-    submitter === "signup" &&
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(user.email, user.password)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    if (submitter === "signUp") {
+      user.password === user.confirmationPassword
+        ? firebase
+            .auth()
+            .createUserWithEmailAndPassword(user.email, user.password)
+            .then((res) => {
+              setConfirmationError(false);
+              setUser({ ...user, signUpError: "" });
+              setSignedUp(true);
+            })
+            .catch((err) => {
+              setUser({ ...user, signUpError: err.message });
+            })
+        : setConfirmationError(true);
+    }
 
     submitter === "signIn" &&
       firebase
         .auth()
         .signInWithEmailAndPassword(user.email, user.password)
         .then((res) => {
+          const currentUser = firebase.auth().currentUser;
+          setName(currentUser.displayName);
           setLoggedIn(true);
-          history.replace(location);
+          history.replace(location || "/");
         })
         .catch((err) => {
-          console.log(err.message);
+          setUser({ ...user, signInError: err.message });
         });
   };
 
@@ -52,11 +67,13 @@ const Auth = () => {
       .auth()
       .signInWithPopup(provider)
       .then((res) => {
+        const currentUser = firebase.auth().currentUser;
+        setName(currentUser.displayName);
         setLoggedIn(true);
-        history.replace(location);
+        history.replace(location || "/");
       })
       .catch((err) => {
-        console.log(err);
+        setUser({ ...user, signInError: err.message });
       });
   };
 
@@ -66,26 +83,39 @@ const Auth = () => {
       .auth()
       .signInWithPopup(provider)
       .then((res) => {
+        const currentUser = firebase.auth().currentUser;
+        setName(currentUser.displayName);
         setLoggedIn(true);
         history.replace(location || "/");
       })
       .catch((err) => {
-        console.log(err);
+        setUser({ ...user, signInError: err.message });
       });
+  };
+
+  const loginToggleHandler = () => {
+    setSignedUp(true);
+    setConfirmationError(false);
+
+    setUser({ ...user, signUpError: "" });
+  };
+  const signUpToggleHandler = () => {
+    setSignedUp(false);
+    setUser({ ...user, signInError: "" });
   };
 
   return (
     <div>
-      <Banner img={logoBlack}></Banner>
+      <Banner color="black" img={logoBlack}></Banner>
 
       <form onSubmit={formHandler} className="form-group auth-form-group">
         <FormGroup>
-          {isSignedUp ? (
+          {signedUp ? (
             <h2 style={{ textAlign: "left" }}>Login</h2>
           ) : (
             <h2 style={{ textAlign: "left" }}>Create an account</h2>
           )}
-          {!isSignedUp && (
+          {!signedUp && (
             <>
               <input
                 onBlur={(event) =>
@@ -121,7 +151,8 @@ const Auth = () => {
             placeholder="Password"
             required
           />
-          {!isSignedUp && (
+
+          {!signedUp && (
             <input
               onBlur={(event) =>
                 setUser({ ...user, confirmationPassword: event.target.value })
@@ -131,38 +162,77 @@ const Auth = () => {
               required
             />
           )}
-          {isSignedUp ? (
+
+          {signedUp && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "13px",
+                fontWeight: "500",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input id="checkbox" type="Checkbox" />
+                <label for="checkbox" style={{ marginBottom: "6px" }}>
+                  Remember me
+                </label>
+              </div>
+              <p style={{ color: "orange", cursor: "pointer" }}>
+                Forgot Password
+              </p>
+            </div>
+          )}
+
+          {user.signInError ? (
+            <p style={{ color: "red", fontSize: "13px" }}>{user.signInError}</p>
+          ) : (
+            ""
+          )}
+          {user.signUpError ? (
+            <p style={{ color: "red", fontSize: "13px" }}>{user.signUpError}</p>
+          ) : (
+            ""
+          )}
+          {confirmationError ? (
+            <p style={{ color: "red", fontSize: "13px" }}>
+              Doesn't match your password
+            </p>
+          ) : (
+            ""
+          )}
+          {signedUp ? (
             <input
               name="signIn"
               onClick={(event) => setSubmitter(event.target.name)}
               type="submit"
-              value="SignIn"
+              value="signIn"
             />
           ) : (
             <input
-              name="signup"
+              name="signUp"
               onClick={(event) => setSubmitter(event.target.name)}
               type="submit"
-              value="Signup"
+              value="signUp"
             />
           )}
         </FormGroup>
 
-        {isSignedUp ? (
+        {signedUp ? (
           <>
             <span>Don't have an account? </span>
             <span
-              onClick={() => setSignedUp(false)}
+              onClick={signUpToggleHandler}
               style={{ color: "orange", cursor: "pointer" }}
             >
-              Signup
+              signUp
             </span>
           </>
         ) : (
           <>
             <span>Already have an account? </span>
             <span
-              onClick={() => setSignedUp(true)}
+              onClick={loginToggleHandler}
               style={{ color: "orange", cursor: "pointer" }}
             >
               Login

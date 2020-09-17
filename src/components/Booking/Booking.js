@@ -7,12 +7,17 @@ import { Button, FormGroup, Grid } from "@material-ui/core";
 import "./Booking.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { useHistory } from "react-router-dom";
 const Booking = () => {
+  const history = useHistory();
   const [showArea] = useContext(MyContext);
   const [from, setFrom] = useState(null);
   const [to, setTo] = useState(null);
 
+  const formController = (event) => {
+    event.preventDefault();
+    history.push("/see-hotel");
+  };
   return (
     <div
       style={{
@@ -28,16 +33,24 @@ const Booking = () => {
         container
         item
         xs={12}
-        justify="space-around"
-        style={{ color: "white", textAlign: "center" }}
+        style={{ color: "white", marginTop: "40px" }}
       >
         <Grid item xs={12} md={6} style={{ padding: "0 9%" }}>
           <h1 style={{ fontSize: "60px" }}>{showArea.title}</h1>
           <h5 style={{ fontWeight: "500" }}>{showArea.description}</h5>
         </Grid>
 
-        <Grid item xs={12} md={6} style={{ padding: "70px 8%" }}>
-          <form className="booking-form" style={{ padding: "30px" }}>
+        <Grid item xs={12} md={6}>
+          <form
+            className="booking-form"
+            style={{
+              padding: "7%",
+              margin: "auto",
+              marginTop: "50px",
+              width: "340px",
+            }}
+            onSubmit={formController}
+          >
             <FormGroup className="form-group">
               <label htmlFor="origin">Origin</label>
               <input id="origin" type="text" required />
@@ -45,9 +58,9 @@ const Booking = () => {
               <label htmlFor="origin">Destination</label>
               <input id="origin" type="text" required />
 
-              <div style={{ display: "flex" }}>
+              <div className="datepicker-section" style={{ display: "flex" }}>
                 <div>
-                  <label htmlFor="origin">From</label>
+                  <p>From</p>
                   <DatePicker
                     selected={from}
                     onChange={(date) => setFrom(date)}
@@ -56,7 +69,7 @@ const Booking = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="origin">To</label>
+                  <p>To</p>
                   <DatePicker
                     selected={to}
                     onChange={(date) => setTo(date)}

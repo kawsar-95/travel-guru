@@ -1,5 +1,8 @@
+/* eslint-disable no-unused-vars */
+import { Grid } from "@material-ui/core";
 import React from "react";
-
+import "./HotelDetails.css";
+import StarRateOutlinedIcon from "@material-ui/icons/StarRateOutlined";
 const HotelDetails = (props) => {
   const {
     title,
@@ -13,29 +16,36 @@ const HotelDetails = (props) => {
     price,
   } = props.hotel;
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", padding: "10px", alignItems: "center" }}>
       <div>
-        <img style={{ width: "300px" }} src={img} alt="" />
+        <img style={{ width: "250px" }} src={img} alt="" />
       </div>
-      <div>
-        <h3>{title}</h3>
-        <div>
+      <div className="hotel-text-container" style={{ marginLeft: "10px" }}>
+        <h4 style={{ margin: "0" }}>{title}</h4>
+        <div className="hotel-features">
           <span>{guest} guests</span>
           <span>{bedroom} bedrooms</span>
           <span>{bed} beds</span>
           <span>{bath} baths</span>
         </div>
-        <p>With air conditioning kitchen</p>
+        <p>Wif air conditioning kitchen</p>
         <p>Cancellation flexibility available</p>
-        <div>
-          <span>{star}</span>
-          <span>({reviewed})</span>
-          <span>${price}/Night</span>
-          <span>167 total</span>
+        <div
+          className="hotel-review"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <StarRateOutlinedIcon style={{ color: "orange" }} />
+          <span>
+            {" "}
+            {star} ({reviewed})
+          </span>
+          <span>
+            ${price}/<span className="custom-color">Night</span>
+          </span>
+          <span className="custom-color">167 total</span>
         </div>
       </div>
     </div>
   );
 };
-
 export default HotelDetails;

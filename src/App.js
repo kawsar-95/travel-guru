@@ -9,7 +9,10 @@ import Auth from "./components/Auth/Auth";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from "./firebase.config";
-
+import News from "./components/News/News";
+import Blog from "./components/Blog/Blog";
+import Contact from "./components/Contacts/Contacts";
+import Destination from "./components/Destination/Destination";
 export const MyContext = createContext();
 firebase.initializeApp(firebaseConfig);
 function App() {
@@ -21,10 +24,12 @@ function App() {
     img: "https://i.ibb.co/p1Fm5yD/coxsbazar.png",
   });
 
-  const [loggedIn, setLoggedIn] = useState(true);
-
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [name, setName] = useState("user");
   return (
-    <MyContext.Provider value={[showArea, setShowArea, loggedIn, setLoggedIn]}>
+    <MyContext.Provider
+      value={[showArea, setShowArea, loggedIn, setLoggedIn, name, setName]}
+    >
       <Router>
         <Switch>
           <Route exact path="/">
@@ -42,6 +47,22 @@ function App() {
           <PrivateRoute path="/see-hotel">
             <Hotels></Hotels>
           </PrivateRoute>
+
+          <Route path="/news">
+            <News></News>
+          </Route>
+
+          <Route path="/blog">
+            <Blog></Blog>
+          </Route>
+
+          <Route path="/contact">
+            <Contact></Contact>
+          </Route>
+
+          <Route path="/destination">
+            <Destination></Destination>
+          </Route>
         </Switch>
       </Router>
     </MyContext.Provider>

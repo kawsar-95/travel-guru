@@ -8,3 +8,9 @@
   border-radius: 5px;
   border: 1px solid orange;
 }
+.header-right p {
+  margin-right: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}

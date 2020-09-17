@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { Grid } from "@material-ui/core";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { MyContext } from "../../App";
+import "./TravelArea.css";
 
 const TravelArea = (props) => {
   const [showArea, setShowArea] = useContext(MyContext);
@@ -14,15 +15,19 @@ const TravelArea = (props) => {
     backgroundRepeat: "no-repeat",
     backgroundOrigin: "border-box",
     width: "98%",
-    border: "3px solid #ff9100",
     borderRadius: "10px",
     margin: "2px",
+  };
+
+  const travelAreaHandler = () => {
+    setShowArea(props.place);
   };
 
   return (
     <Grid item xs={12} md={4}>
       <div
-        onClick={() => setShowArea(props.place)}
+        className="travel-area"
+        onClick={travelAreaHandler}
         style={backgroundImageStyle}
       >
         <h2 style={{ marginTop: "250px", textAlign: "center", color: "white" }}>
