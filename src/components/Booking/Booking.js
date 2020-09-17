@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
 import Banner from "../Banner/Banner";
-import logo from "../../Images/Logo.png";
+import logo from "../../Images/Icon/Logo.png";
 import { MyContext } from "../../App";
 import { Button, FormGroup, Grid } from "@material-ui/core";
 import "./Booking.css";

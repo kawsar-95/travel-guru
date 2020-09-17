@@ -3,7 +3,7 @@ import { FormGroup } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import "./Auth.css";
 import Banner from "../Banner/Banner";
-import logoBlack from "../../Images/Logo.png";
+import logoBlack from "../../Images/Icon/Logo.png";
 import fb from "../../Images/Icon/fb.png";
 import google from "../../Images/Icon/google.png";
 import * as firebase from "firebase/app";

@@ -13,6 +13,7 @@ import News from "./components/News/News";
 import Blog from "./components/Blog/Blog";
 import Contact from "./components/Contacts/Contacts";
 import Destination from "./components/Destination/Destination";
+import Error from "./Error/Error";
 export const MyContext = createContext();
 firebase.initializeApp(firebaseConfig);
 function App() {
@@ -60,8 +61,10 @@ function App() {
             <Contact></Contact>
           </Route>
 
-          <Route path="/destination">
-            <Destination></Destination>
+          <Route path="/destination"></Route>
+          <Destination></Destination>
+          <Route path="*">
+            <Error />
           </Route>
         </Switch>
       </Router>

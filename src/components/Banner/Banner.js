@@ -2,7 +2,7 @@
 import { Button } from "@material-ui/core";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../Images/Logo.png";
+import logo from "../../Images/Icon/Logo.png";
 import "./Banner.css";
 import { MyContext } from "../../App";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Banner from "../Banner/Banner";
-import blackLogo from "../../Images/Logo.png";
+import blackLogo from "../../Images/Icon/Logo.png";
 import { Grid } from "@material-ui/core";
 
 import { hotelsInfo } from "../../Data/Data";
