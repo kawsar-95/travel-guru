@@ -28,7 +28,7 @@ const HotelDetails = (props) => {
           <span>{bed} beds</span>
           <span>{bath} baths</span>
         </div>
-        <p>Wif air conditioning kitchen</p>
+        <p>With air conditioning kitchen</p>
         <p>Cancellation flexibility available</p>
         <div
           className="hotel-review"

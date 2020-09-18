@@ -11,7 +11,7 @@ import "firebase/auth";
 import firebaseConfig from "./firebase.config";
 import News from "./components/News/News";
 import Blog from "./components/Blog/Blog";
-import Contact from "./components/Contacts/Contacts";
+import Contacts from "./components/Contacts/Contacts";
 import Destination from "./components/Destination/Destination";
 import Error from "./Error/Error";
 export const MyContext = createContext();
@@ -21,7 +21,7 @@ function App() {
     id: 1,
     title: "Cox's Bazar",
     description:
-      "Why Cox's Bazar is a Great Tourist Attraction Cox's Bazar Review. Cox's Bazar is famous for its long natural sandy sea beach. ... Cox's Bazar has the world's largest unbroken sea beach which stretches more than 120 km. The entire beach is a stretch of golden sandy sea beach which is reachable by motorbike.",
+      "Cox's Bazar is a city, fishing port, tourism centre and district headquarters in southeastern Bangladesh. It is famous mostly for its long natural sandy beach, and it ....",
     img: "https://i.ibb.co/p1Fm5yD/coxsbazar.png",
   });
 
@@ -58,7 +58,7 @@ function App() {
           </Route>
 
           <Route path="/contact">
-            <Contact></Contact>
+            <Contacts></Contacts>
           </Route>
 
           <Route path="/destination"></Route>

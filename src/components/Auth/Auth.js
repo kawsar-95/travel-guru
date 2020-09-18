@@ -9,6 +9,7 @@ import google from "../../Images/Icon/google.png";
 import * as firebase from "firebase/app";
 import { MyContext } from "../../App";
 import { useHistory, useLocation } from "react-router-dom";
+
 const Auth = () => {
   const [
     showArea,
@@ -18,12 +19,11 @@ const Auth = () => {
     name,
     setName,
   ] = useContext(MyContext);
-  const [confirmationError, setConfirmationError] = useState(false);
 
-  const [signedUp, setSignedUp] = useState(false);
+  const [confirmationError, setConfirmationError] = useState(false);
+  const [isSignedUp, setSignedUp] = useState(false);
   const [submitter, setSubmitter] = useState("");
   const [user, setUser] = useState({});
-
   const location = useLocation().location?.pathname;
   const history = useHistory();
 
@@ -37,11 +37,16 @@ const Auth = () => {
             .createUserWithEmailAndPassword(user.email, user.password)
             .then((res) => {
               setConfirmationError(false);
-              setUser({ ...user, signUpError: "" });
+              setUser({ ...user, signupError: "" });
               setSignedUp(true);
+
+              const currentUser = firebase.auth().currentUser;
+              currentUser.updateProfile({
+                displayName: `${user.fname} ${user.lname}`,
+              });
             })
             .catch((err) => {
-              setUser({ ...user, signUpError: err.message });
+              setUser({ ...user, signupError: err.message });
             })
         : setConfirmationError(true);
     }
@@ -96,10 +101,10 @@ const Auth = () => {
   const loginToggleHandler = () => {
     setSignedUp(true);
     setConfirmationError(false);
-
-    setUser({ ...user, signUpError: "" });
+    setUser({ ...user, signupError: "" });
   };
-  const signUpToggleHandler = () => {
+
+  const signupToggleHandler = () => {
     setSignedUp(false);
     setUser({ ...user, signInError: "" });
   };
@@ -110,12 +115,13 @@ const Auth = () => {
 
       <form onSubmit={formHandler} className="form-group auth-form-group">
         <FormGroup>
-          {signedUp ? (
+          {isSignedUp ? (
             <h2 style={{ textAlign: "left" }}>Login</h2>
           ) : (
             <h2 style={{ textAlign: "left" }}>Create an account</h2>
           )}
-          {!signedUp && (
+
+          {!isSignedUp && (
             <>
               <input
                 onBlur={(event) =>
@@ -125,7 +131,6 @@ const Auth = () => {
                 placeholder="First name"
                 required
               />
-
               <input
                 onBlur={(event) =>
                   setUser({ ...user, lname: event.target.value })
@@ -136,6 +141,7 @@ const Auth = () => {
               />
             </>
           )}
+
           <input
             onBlur={(event) => setUser({ ...user, email: event.target.value })}
             type="email"
@@ -151,8 +157,7 @@ const Auth = () => {
             placeholder="Password"
             required
           />
-
-          {!signedUp && (
+          {!isSignedUp && (
             <input
               onBlur={(event) =>
                 setUser({ ...user, confirmationPassword: event.target.value })
@@ -163,7 +168,7 @@ const Auth = () => {
             />
           )}
 
-          {signedUp && (
+          {isSignedUp && (
             <div
               style={{
                 display: "flex",
@@ -189,7 +194,7 @@ const Auth = () => {
           ) : (
             ""
           )}
-          {user.signUpError ? (
+          {user.signupError ? (
             <p style={{ color: "red", fontSize: "13px" }}>{user.signUpError}</p>
           ) : (
             ""
@@ -201,31 +206,30 @@ const Auth = () => {
           ) : (
             ""
           )}
-          {signedUp ? (
+          {isSignedUp ? (
             <input
-              name="signIn"
-              onClick={(event) => setSubmitter(event.target.name)}
+              name="SignIn"
               type="submit"
-              value="signIn"
+              value="SignIn"
+              onClick={(event) => setSubmitter(event.target.name)}
             />
           ) : (
             <input
-              name="signUp"
-              onClick={(event) => setSubmitter(event.target.name)}
+              name="SignUp"
               type="submit"
-              value="signUp"
+              value="SignUp"
+              onClick={(event) => setSubmitter(event.target.name)}
             />
           )}
         </FormGroup>
-
-        {signedUp ? (
+        {isSignedUp ? (
           <>
             <span>Don't have an account? </span>
             <span
-              onClick={signUpToggleHandler}
+              onClick={signupToggleHandler}
               style={{ color: "orange", cursor: "pointer" }}
             >
-              signUp
+              Signup
             </span>
           </>
         ) : (
@@ -244,7 +248,11 @@ const Auth = () => {
       <div style={{ width: "300px", margin: "auto" }}>
         <p style={{ textAlign: "center" }}>---------- Or -----------</p>
 
-        <div onClick={facebookSignInHandler} className="auth-provider-section">
+        <div
+          onClick={facebookSignInHandler}
+          style={{ cursor: "pointer" }}
+          className="auth-provider-section"
+        >
           <img
             style={{ width: "30px", height: "30px", marginRight: "10px" }}
             src={fb}
@@ -252,8 +260,11 @@ const Auth = () => {
           />
           <p>Continue with Facebook</p>
         </div>
-
-        <div onClick={googleSignInHandler} className="auth-provider-section">
+        <div
+          onClick={googleSignInHandler}
+          style={{ cursor: "pointer" }}
+          className="auth-provider-section"
+        >
           <img
             style={{ width: "30px", height: "30px", marginRight: "10px" }}
             src={google}

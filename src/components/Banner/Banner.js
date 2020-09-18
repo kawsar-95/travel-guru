@@ -7,7 +7,9 @@ import "./Banner.css";
 import { MyContext } from "../../App";
 
 const Banner = (props) => {
-  const [showArea, setShowArea, loggedIn] = useContext(MyContext);
+  const [showArea, setShowArea, loggedIn, setLoggedIn, name] = useContext(
+    MyContext
+  );
   return (
     <div
       style={{
@@ -51,14 +53,14 @@ const Banner = (props) => {
 
         <Link
           style={{ textDecoration: "none", color: `${props.color}` }}
-          to="/contact"
+          to="/contacts"
         >
-          <p>Contact</p>
+          <p>Contacts</p>
         </Link>
 
         {loggedIn ? (
           <h4>
-            <span style={{ color: "orange" }}>||</span> Hello, User
+            <span style={{ color: "orange" }}>||</span> Hello,{name}
           </h4>
         ) : (
           <>
