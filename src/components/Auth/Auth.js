@@ -35,7 +35,7 @@ const Auth = () => {
         ? firebase
             .auth()
             .createUserWithEmailAndPassword(user.email, user.password)
-            .then((res) => {
+            .then((response) => {
               setConfirmationError(false);
               setUser({ ...user, signupError: "" });
               setSignedUp(true);
@@ -45,8 +45,8 @@ const Auth = () => {
                 displayName: `${user.fname} ${user.lname}`,
               });
             })
-            .catch((err) => {
-              setUser({ ...user, signupError: err.message });
+            .catch((error) => {
+              setUser({ ...user, signupError: error.message });
             })
         : setConfirmationError(true);
     }
@@ -55,14 +55,14 @@ const Auth = () => {
       firebase
         .auth()
         .signInWithEmailAndPassword(user.email, user.password)
-        .then((res) => {
+        .then((response) => {
           const currentUser = firebase.auth().currentUser;
           setName(currentUser.displayName);
           setLoggedIn(true);
           history.replace(location || "/");
         })
-        .catch((err) => {
-          setUser({ ...user, signInError: err.message });
+        .catch((error) => {
+          setUser({ ...user, signInError: error.message });
         });
   };
 
@@ -71,14 +71,14 @@ const Auth = () => {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then((res) => {
+      .then((response) => {
         const currentUser = firebase.auth().currentUser;
         setName(currentUser.displayName);
         setLoggedIn(true);
         history.replace(location || "/");
       })
-      .catch((err) => {
-        setUser({ ...user, signInError: err.message });
+      .catch((error) => {
+        setUser({ ...user, signInError: error.message });
       });
   };
 
@@ -87,21 +87,21 @@ const Auth = () => {
     firebase
       .auth()
       .signInWithPopup(provider)
-      .then((res) => {
+      .then((response) => {
         const currentUser = firebase.auth().currentUser;
         setName(currentUser.displayName);
         setLoggedIn(true);
         history.replace(location || "/");
       })
-      .catch((err) => {
-        setUser({ ...user, signInError: err.message });
+      .catch((error) => {
+        setUser({ ...user, signInError: error.message });
       });
   };
 
   const loginToggleHandler = () => {
     setSignedUp(true);
     setConfirmationError(false);
-    setUser({ ...user, signupError: "" });
+    setUser({ ...user, signUpError: "" });
   };
 
   const signupToggleHandler = () => {
@@ -229,7 +229,7 @@ const Auth = () => {
               onClick={signupToggleHandler}
               style={{ color: "orange", cursor: "pointer" }}
             >
-              Signup
+              SignUp
             </span>
           </>
         ) : (
@@ -239,7 +239,7 @@ const Auth = () => {
               onClick={loginToggleHandler}
               style={{ color: "orange", cursor: "pointer" }}
             >
-              Login
+              LogIn
             </span>
           </>
         )}

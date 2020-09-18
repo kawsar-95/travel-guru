@@ -2,14 +2,15 @@
 import { Button } from "@material-ui/core";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { MyContext } from "../../App";
 import logo from "../../Images/Icon/Logo.png";
 import "./Banner.css";
-import { MyContext } from "../../App";
 
 const Banner = (props) => {
   const [showArea, setShowArea, loggedIn, setLoggedIn, name] = useContext(
     MyContext
   );
+
   return (
     <div
       style={{
@@ -18,6 +19,7 @@ const Banner = (props) => {
         justifyContent: "space-between",
         color: `${props.color}`,
         height: "50px",
+        padding: "5px 20px",
       }}
     >
       <div>
@@ -36,31 +38,29 @@ const Banner = (props) => {
         >
           <p>News</p>
         </Link>
-
         <Link
           style={{ textDecoration: "none", color: `${props.color}` }}
-          to="/destination"
+          to="/booking/destination"
         >
           <p>Destination</p>
         </Link>
-
         <Link
           style={{ textDecoration: "none", color: `${props.color}` }}
           to="/blog"
         >
           <p>Blog</p>
         </Link>
-
         <Link
           style={{ textDecoration: "none", color: `${props.color}` }}
-          to="/contacts"
+          to="/contact"
         >
-          <p>Contacts</p>
+          <p>Contact</p>
         </Link>
 
         {loggedIn ? (
           <h4>
-            <span style={{ color: "orange" }}>||</span> Hello,{name}
+            <span style={{ color: "orange" }}>| </span>
+            Hello, {name}
           </h4>
         ) : (
           <>

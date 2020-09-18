@@ -17,3 +17,6 @@
   margin: 0 0 5px 0;
   height: 35px;
 }
+.auth-form-group input {
+  padding-left: 20px;
+}
