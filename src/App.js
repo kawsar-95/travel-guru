@@ -16,6 +16,7 @@ import Destination from "./components/Destination/Destination";
 import Error from "./Error/Error";
 export const MyContext = createContext();
 firebase.initializeApp(firebaseConfig);
+
 function App() {
   const [showArea, setShowArea] = useState({
     id: 1,
@@ -61,8 +62,9 @@ function App() {
             <Contacts></Contacts>
           </Route>
 
-          <Route path="/destination"></Route>
-          <Destination></Destination>
+          <Route path="/destination">
+            <Destination></Destination>
+          </Route>
           <Route path="*">
             <Error />
           </Route>
